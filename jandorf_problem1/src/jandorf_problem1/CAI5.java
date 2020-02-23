@@ -3,7 +3,7 @@ package jandorf_problem1;
 import java.security.SecureRandom;
 import java.util.Scanner;
 
-public class CAI4 {
+public class CAI5 {
 
 	Scanner input = new Scanner(System.in);
 
@@ -13,7 +13,7 @@ public class CAI4 {
 	public static void main(String[] args) {
 
 
-		CAI4 test = new CAI4();
+		CAI5 test = new CAI5();
 		test.quiz();
 
 	}
@@ -34,13 +34,22 @@ public class CAI4 {
 		System.out.println("Enter a difficulty level 1-4: ");
 		int dif = readDifficulty();
 
+		System.out.println("Enter 1-5 for problem type: ");
+		int type = readProblemType();
+
 		do {
+
+			int typ = type;
+
+			if (type == 5) {
+				typ = 1 + r.nextInt(4);
+			}
 
 			num1 = generateQuestionArgument(dif);
 			num2 = generateQuestionArgument(dif);
 
 			// Ask the Question
-			askQuestion(num1,num2);
+			askQuestion(num1,num2,typ);
 
 			// Read the Response
 			int val = readResponse();
@@ -49,9 +58,9 @@ public class CAI4 {
 			int res = 1 + r.nextInt(4);
 
 			// Check if the answer is correct
-			if(isAnswerCorrect(num1,num2,val) == 0) {
+			if(isAnswerCorrect(num1,num2,val,typ) == 0) {
 				displayIncorrectResponse(res);
-			} else if(isAnswerCorrect(num1,num2,val) == 1) {
+			} else if(isAnswerCorrect(num1,num2,val,typ) == 1) {
 				displayCorrectResponse(res);
 				tally++;
 			}
@@ -72,6 +81,9 @@ public class CAI4 {
 					System.out.println("\nEnter a difficulty level 1-4: ");
 					dif = readDifficulty();
 
+					System.out.println("\nEnter 1-5 for problem type: ");
+					type = readProblemType();
+
 					x = 0;
 					tally = 0;
 				} else {
@@ -86,15 +98,29 @@ public class CAI4 {
 
 	}
 
-	public void askQuestion(int n1, int n2) {
+	public void askQuestion(int n1, int n2, int type) {
 
-		System.out.println("How much is " + n1 + " times " + n2 + "?");
+		if(type == 1) {
+			System.out.println("How much is " + n1 + " plus " + n2 + "?");
+		} else if(type == 2) {
+			System.out.println("How much is " + n1 + " times " + n2 + "?");
+		} else if(type == 3) {
+			System.out.println("How much is " + n1 + " minus " + n2 + "?");
+		} else if(type == 4) {
+			System.out.println("How much is " + n1 + " divided by " + n2 + "?");
+		}
+
 
 	}
 
 	public int readDifficulty() {
 		int difficulty = input.nextInt();
 		return difficulty;
+	}
+
+	public int readProblemType() {
+		int type = input.nextInt();
+		return type;
 	}
 
 	public int generateQuestionArgument(int level) {
@@ -119,12 +145,26 @@ public class CAI4 {
 
 	}
 
-	public int isAnswerCorrect(int n1, int n2, int answer) {
+	public int isAnswerCorrect(int n1, int n2, int answer, int type) {
 
 		int flag = 0;
 
-		if(answer == (n1 * n2)) {
-			flag = 1;
+		if(type == 1) {
+			if(answer == (n1 + n2)) {
+				flag = 1;
+			}
+		} else if(type == 2) {
+			if(answer == (n1 * n2)) {
+				flag = 1;
+			}
+		} else if(type == 3) {
+			if(answer == (n1 - n2)) {
+				flag = 1;
+			}
+		} else if(type == 4) {
+			if(answer == (n1 / n2)) {
+				flag = 1;
+			}
 		}
 
 		return flag;
