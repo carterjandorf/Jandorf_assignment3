@@ -6,6 +6,9 @@ import java.util.Scanner;
 public class CAI4 {
 	
 	Scanner input = new Scanner(System.in);
+	
+	// Create SecureRandom Object
+	SecureRandom r = new SecureRandom();
 
 	public static void main(String[] args) {
 		
@@ -16,8 +19,6 @@ public class CAI4 {
 	}
 	
 	public void quiz() {
-		// Create SecureRandom Object
-		SecureRandom r = new SecureRandom();
 		
 		// Create variable to keep looping
 		int x = 0;
@@ -30,10 +31,13 @@ public class CAI4 {
 		float tally = 0;
 		float score;
 		
+		System.out.println("Enter a difficulty level 1-4: ");
+		int dif = readDifficulty();
+		
 		do {
 			
-	    num1 = 0 + r.nextInt(10);
-	    num2 = 0 + r.nextInt(10);
+	    num1 = generateQuestionArgument(dif);
+	    num2 = generateQuestionArgument(dif);
 		
 	    // Ask the Question
 		askQuestion(num1,num2);
@@ -54,14 +58,21 @@ public class CAI4 {
 		
 		x++;
 		
-		if(x == 9) {
+		if(x == 10) {
 			
 			score = (tally/10) * 100;
 			
 			if(score < 75) {
 				System.out.println("Please ask your teacher for extra help.");
+				
+				System.out.println("\nEnter a difficulty level 1-4: ");
+				dif = readDifficulty();
+				
 			} else {
 				System.out.println("Congratulations, you are ready to go to the next level!");
+				
+				System.out.println("\nEnter a difficulty level 1-4: ");
+				dif = readDifficulty();
 			}
 			
 			x = 0;
@@ -78,6 +89,26 @@ public class CAI4 {
 		
 		System.out.println("How much is " + n1 + " times " + n2 + "?");
 		
+	}
+	
+	public int readDifficulty() {
+		int difficulty = input.nextInt();
+		return difficulty;
+	}
+	
+	public int generateQuestionArgument(int level) {
+		int num;
+		if(level == 1) {
+			num = 0 + r.nextInt(10); 
+		} else if (level == 2) {
+			num = 0 + r.nextInt(100);
+		} else if (level == 3) {
+			num = 0 + r.nextInt(1000);
+		} else {
+			num = 0 + r.nextInt(10000);
+		}
+		
+		return num;
 	}
 	
 	public int readResponse() {

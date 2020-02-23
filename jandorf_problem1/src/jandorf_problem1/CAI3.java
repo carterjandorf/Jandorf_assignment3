@@ -54,7 +54,7 @@ public class CAI3 {
 		
 		x++;
 		
-		if(x == 9) {
+		if(x == 10) {
 			
 			score = (tally/10) * 100;
 			
